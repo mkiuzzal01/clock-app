@@ -3,8 +3,11 @@ import { useFonts, Roboto_400Regular, Roboto_700Bold } from '@expo-google-fonts/
 import { SafeAreaView } from 'react-native-safe-area-context';
 import UpperPart from './components/home/UpperPart';
 import LowerPart from './components/home/LowerPart';
+import ExpendedView from './components/home/ExpendedView';
+import { useState } from 'react';
 
 export default function Page() {
+  const [isExpended, setIsExpended] = useState(false);
   const [fontsLoaded] = useFonts({
     Roboto_400Regular,
     Roboto_700Bold,
@@ -22,8 +25,13 @@ export default function Page() {
         resizeMode="cover"
       >
         <View style={styles.section}>
-          <UpperPart />
-          <LowerPart />
+          {
+            !isExpended && <UpperPart />
+          }
+          <LowerPart isExpended={isExpended} onPress={() => setIsExpended(!isExpended)} />
+          {
+            isExpended && <ExpendedView />
+          }
         </View>
       </ImageBackground>
     </SafeAreaView>
@@ -38,6 +46,5 @@ const styles = StyleSheet.create({
   section: {
     flex: 1,
     justifyContent: 'space-between',
-    padding: 20,
   },
 });
